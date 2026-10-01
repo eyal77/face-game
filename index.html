@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Face Runner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="layout">
+    <div class="stage">
+      <canvas id="game"></canvas>
+
+      <div class="overlay" id="overlay">
+        <section class="screen" data-screen="start">
+          <h1>Face Runner</h1>
+          <p>Open your mouth to <b>jump</b>. Raise your eyebrows to <b>shoot</b>.</p>
+          <div class="buttons">
+            <button id="btn-camera" class="primary">Enable camera</button>
+            <button id="btn-keyboard" class="ghost">Play with keyboard</button>
+          </div>
+          <button id="btn-scores" class="link">High scores</button>
+          <p class="status" id="status"></p>
+          <p class="status error" id="file-warning" hidden>
+            This page was opened as a file, so the browser blocks the game's scripts.
+            Run <code>npm start</code> in the project folder and open
+            <a href="http://127.0.0.1:5173">http://127.0.0.1:5173</a> instead.
+          </p>
+          <p class="fine">The video is processed on your device and never uploaded.</p>
+        </section>
+
+        <section class="screen" data-screen="calibrate" hidden>
+          <h2>Calibration</h2>
+          <p>Look at the screen with a relaxed, neutral face: mouth closed, eyebrows at rest.</p>
+          <div class="progress"><div id="calib-bar"></div></div>
+          <button id="btn-calibrate" class="primary">Start calibration</button>
+          <p class="status" id="calib-status"></p>
+        </section>
+
+        <section class="screen" data-screen="ready" hidden>
+          <h2>Ready?</h2>
+          <p id="ready-text"></p>
+          <ul class="legend">
+            <li><span class="dot crate"></span>Crate: jump over it</li>
+            <li><span class="dot walker"></span>Robot: shoot it or jump it</li>
+            <li><span class="dot flyer"></span>Drone: shoot it</li>
+          </ul>
+        </section>
+
+        <section class="screen" data-screen="over" hidden>
+          <h2>Game over</h2>
+          <p class="big" id="final-score"></p>
+          <div id="name-entry" class="name-entry" hidden>
+            <p><b id="rank-text"></b></p>
+            <p class="fine">Enter your initials</p>
+            <div class="initials" id="initials" aria-live="polite"></div>
+            <p class="fine" id="name-help"></p>
+          </div>
+          <table class="board" id="over-board">
+            <tbody></tbody>
+          </table>
+          <p id="again-text"></p>
+        </section>
+
+        <section class="screen" data-screen="scores" hidden>
+          <h2>High scores</h2>
+          <table class="board" id="scores-board">
+            <tbody></tbody>
+          </table>
+          <button id="btn-back" class="ghost small">Back</button>
+        </section>
+      </div>
+
+      <button id="btn-mute" class="mute" aria-label="Mute sound" title="Mute (M)">🔊</button>
+
+      <div class="banner" id="face-lost" hidden>Face not detected. Game paused.</div>
+    </div>
+
+    <aside class="panel" id="panel" hidden>
+      <video id="webcam" playsinline muted></video>
+      <div class="meter" data-gesture="jump">
+        <div class="meter-label"><span>Jump</span><span class="hint">open mouth</span></div>
+        <div class="track"><div class="fill"></div><div class="mark"></div></div>
+      </div>
+      <div class="meter" data-gesture="shoot">
+        <div class="meter-label"><span>Shoot</span><span class="hint">raise eyebrows</span></div>
+        <div class="track"><div class="fill"></div><div class="mark"></div></div>
+      </div>
+      <button id="btn-recalibrate" class="ghost small">Recalibrate</button>
+    </aside>
+  </main>
+
+  <script>
+    // Module scripts can't load from file://, so explain instead of failing silently.
+    if (location.protocol === "file:") document.getElementById("file-warning").hidden = false;
+  </script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "face-game",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An endless runner controlled with face gestures (MediaPipe Face Landmarker).",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
